@@ -35,20 +35,25 @@ export default class CreatePost extends Component{
 
     render(){
         return(
-            <View>
-                <Text>Posteos</Text>
+            <View style={styles.container}>
+                <Text style={styles.titulo}>Posteos</Text>
 
                 <Text>Título</Text>
-                <TextInput 
+                <TextInput
+                    style={styles.input} 
                     onChangeText={ text => this.setState({title:text})}/>
 
                 <Text>Descripcion</Text>
-                <TextInput 
+                <TextInput
+                    style={styles.input} 
                     multiline = {true} 
-                    numberOfLines= {4} 
+                    numberOfLines= {5} 
                     onChangeText={text => this.setState({description:text})}/>
 
-                <TouchableOpacity onPress={()=>this.createPost()}>
+                <TouchableOpacity 
+                    onPress={()=>this.createPost()}
+                    style={styles.btn}>
+                        
                     <Text>Crear</Text>
                 </TouchableOpacity>
 
@@ -56,3 +61,38 @@ export default class CreatePost extends Component{
         )
     }
 }
+
+//Aquí es donde le aplico los estilos
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    titulo:{
+      fontFamily: 'arial',
+      textAlign: 'center',
+      color: 'tomato',
+      fontSize: '2rem'
+    },
+    input: {
+      height: 20,
+      paddingVertical: 15,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: '#ccc',
+      borderRadius: 6,
+      marginVertical:10
+    },
+  
+    btn: {
+        backgroundColor: 'teal',
+        padding: 10,
+        color: 'white'
+    },
+    error: {
+        color: 'tomato'
+    }
+  }) 
