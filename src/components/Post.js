@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, FlatList, Image} from 'react-native';
 import firebase from 'firebase';
 import { auth, db } from '../firebase/config';
 
@@ -8,7 +8,9 @@ export default class Post extends Component{
         super(props);
         this.state = {
             likes: 0,
-            liked: false
+            liked: false,
+            showModal: false,
+            comentario: ""
         }
     }
 
@@ -53,7 +55,39 @@ export default class Post extends Component{
                 liked: false,
                 likes: this.state.likes - 1
             }),
-            console.log('desliekado ok')
+            console.log('deslikeado ok')
+        )
+        .catch(e=>console.log('Ups! Error' + e))
+    }
+
+    openModal(){
+        this.setState({
+            showModal: true
+        })
+    }
+
+    closeModal(){
+        this.setState({
+            showModal: false
+        })
+    }
+
+    comments(){
+        let thisDoc = db.collection('posts').doc(this.props.doc.id);
+
+        thisDoc.update(
+            {comments:firebase.firestore.FieldValue.arrayUnion({
+                createAt: Date.now(),
+                comentario: this.state.comentario,
+                owner: auth.currentUser.displayName,
+                id: Date.now()
+            })} // mirar despues
+        )
+        .then(
+            this.setState({
+               comentario: ""
+            }),
+            console.log('comentario ok')
         )
         .catch(e=>console.log('Ups! Error' + e))
     }
@@ -62,6 +96,7 @@ export default class Post extends Component{
         return(
             <View style={styles.container}>
 
+                <Image source = {{uri:this.props.doc.data.photo}} style={styles.preview} />
                 <Text>{this.props.doc.data.username}</Text>
                 <Text>{this.props.doc.data.title}</Text>
                 <Text>{this.props.doc.data.desciption}</Text>
@@ -80,7 +115,33 @@ export default class Post extends Component{
                         <Text style={styles.texto}>Like</Text>
                     </TouchableOpacity>
                 }
+
                 <Text>likes:{this.state.likes}</Text>
+
+                {
+                    this.state.showModal ?
+                    <Modal
+                        animationType = "slide"
+                        visible={this.state.showModal}
+                    >
+                        <TouchableOpacity onPress={()=>this.closeModal()}>
+                            <Text>Ocultar comentarios</Text>
+                        </TouchableOpacity> 
+                        <FlatList
+                            data={this.props.doc.data.comments}
+                            keyExtractor={(post) => post.id}
+                            renderItem={({item}) => <Text>{item.comentario}</Text> } // Esto es lo que tengo q crear
+                        />
+                        <TextInput onChangeText={text => this.setState({comentario:text})} value={this.state.comentario} />
+                        <TouchableOpacity onPress={()=>this.comments()}>
+                            <Text>Subir comentario</Text>
+                        </TouchableOpacity>
+                    </Modal>
+                    :
+                        <TouchableOpacity onPress={()=>this.openModal()}>
+                            <Text>Ver comentarios</Text>
+                        </TouchableOpacity>
+                }
 
             </View>
         )}
@@ -120,5 +181,9 @@ const styles = StyleSheet.create({
   },
   texto:{
     color: 'white'
-  }
+  },
+  preview:{
+    height: 200,
+    width: 200
+}
 })

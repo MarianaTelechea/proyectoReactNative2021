@@ -35,14 +35,11 @@ export default class Home extends Component{
                 {
                     this.state.loading ?
                      <ActivityIndicator color={"green"} size={"large"} /> :
-                     <View>
                         <FlatList
                             data={this.state.posts}
                             keyExtractor={(post) => post.id}
                             renderItem={({item}) => <Post doc={item} /> }
-                        />
-                    </View>
-                    
+                        />       
                 }
             </View>
         )
@@ -51,6 +48,7 @@ export default class Home extends Component{
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: 'purple'
+        backgroundColor: 'purple',
+        flex: 1
     }
 })

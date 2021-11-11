@@ -23,12 +23,32 @@ export default class AuthDrawer extends Component{
         }
     }
 
+    componentDidMount(){
+        auth.onAuthStateChanged((user)=>{
+            console.log(user)
+            if(user) {
+                this.setState({
+                    loggeIn: true,
+                    user: user.email
+                })
+            }else{
+                this.setState({
+                    loggeIn: false
+                })
+            }
+        })
+    }
+
     registrarse(email, password, username){
         auth.createUserWithEmailAndPassword(email, password)
         .then(user => {
-            console.log(response);
+            console.log(username);
             user.user.updateProfile({displayName: username})
-            this.setState({loggeIn:true})
+            this.setState({
+                loggeIn:true,
+                user: user.user.email,
+                error: ""
+            })
         })
         .catch(error => {
             console.log(error);
@@ -71,22 +91,6 @@ export default class AuthDrawer extends Component{
         })
     }
 
-    componentDidMount(){
-        auth.onAuthStateChanged((user)=>{
-            console.log(user)
-            if(user) {
-                this.setState({
-                    loggeIn: true,
-                    user: user.email
-                })
-            }else{
-                this.setState({
-                    loggeIn: false
-                })
-            }
-        })
-    }
-
     render(){
         return(
             <NavigationContainer> 
@@ -106,7 +110,7 @@ export default class AuthDrawer extends Component{
                             </React.Fragment>
                         :
                             <React.Fragment> 
-                                <Drawer.Screen name="Register" component = {()=> <Register registrarse={(email, password) => this.registrarse(email, password)} />} />
+                                <Drawer.Screen name="Register" component = {()=> <Register registrarse={(email, password, username) => this.registrarse(email, password, username)} />} />
                                 <Drawer.Screen name="Login" component = {()=> <Login ingresar ={(email, password) => this.ingresar(email, password)} />} />
                             </React.Fragment>
                     }

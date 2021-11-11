@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import MyCamera from '../components/MyCamera';
 import { auth, db } from "../firebase/config";
 
 export default class CreatePost extends Component{
@@ -7,18 +8,22 @@ export default class CreatePost extends Component{
         super(props);
         this.state = {
             title: '',
-            description: ''
+            description: '',
+            photo: "",
+            showCamera: true
         }
     }
 
      createPost(){
          db.collection("posts").add({
              username: auth.currentUser.displayName,
+             email: auth.currentUser.email,
              title: this.state.title,
              description: this.state.description,
              createAt: Date.now(),
              likes:[],
-             comments: []
+             comments: [],
+             photo: this.state.photo
          })
          .then(response => {
              console.log(response);
@@ -33,31 +38,44 @@ export default class CreatePost extends Component{
          })
      }
 
+     onPhotoUpload(url){
+        this.setState({
+            photo: url,
+            showCamera: false
+        })
+     }
+
     render(){
         return(
-            <View style={styles.container}>
-                <Text style={styles.titulo}>Posteos</Text>
+            <React.Fragment>
+            {
+                this.state.showCamera ?
+                    <MyCamera onPhotoUpload={(url)=>this.onPhotoUpload(url)} />
+                :
+                    <View style={styles.container}>
+                        <Text style={styles.titulo}>Posteos</Text>
 
-                <Text>Título</Text>
-                <TextInput
-                    style={styles.input} 
-                    onChangeText={ text => this.setState({title:text})}/>
+                        <Text>Título</Text>
+                        <TextInput
+                            style={styles.input} 
+                            onChangeText={ text => this.setState({title:text})}/>
 
-                <Text>Descripcion</Text>
-                <TextInput
-                    style={styles.input} 
-                    multiline = {true} 
-                    numberOfLines= {5} 
-                    onChangeText={text => this.setState({description:text})}/>
+                        <Text>Descripcion</Text>
+                        <TextInput
+                            style={styles.input} 
+                            multiline = {true} 
+                            numberOfLines= {5} 
+                            onChangeText={text => this.setState({description:text})}/>
 
-                <TouchableOpacity 
-                    onPress={()=>this.createPost()}
-                    style={styles.btn}>
-                        
-                    <Text>Crear</Text>
-                </TouchableOpacity>
-
-            </View>
+                        <TouchableOpacity 
+                            onPress={()=>this.createPost()}
+                            style={styles.btn}>
+                                
+                            <Text>Crear</Text>
+                        </TouchableOpacity>
+                    </View>
+            }
+            </React.Fragment>
         )
     }
 }
