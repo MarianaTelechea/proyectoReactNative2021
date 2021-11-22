@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import MyCamera from '../components/MyCamera';
 import { auth, db } from "../firebase/config";
-
 export default class CreatePost extends Component{
     constructor(props){
         super(props);
@@ -13,7 +12,6 @@ export default class CreatePost extends Component{
             showCamera: true
         }
     }
-
      createPost(){
          db.collection("posts").add({
              username: auth.currentUser.displayName,
@@ -28,8 +26,9 @@ export default class CreatePost extends Component{
          .then(response => {
              console.log(response);
              this.setState({
-                title: '',
-                description: ''
+                title: "",
+                description: "",
+                showCamera: true
              });
              this.props.drawerProps.navigation.navigate("Home")
          })
@@ -37,14 +36,12 @@ export default class CreatePost extends Component{
              console.log(error);
          })
      }
-
      onPhotoUpload(url){
         this.setState({
             photo: url,
             showCamera: false
         })
      }
-
     render(){
         return(
             <React.Fragment>
@@ -54,55 +51,111 @@ export default class CreatePost extends Component{
                 :
                     <View style={styles.container}>
                         <Text style={styles.titulo}>Posteos</Text>
-
-                        <Text>Título</Text>
+                        <Text style={styles.subTitulo}>Título</Text>
                         <TextInput
                             style={styles.input} 
                             onChangeText={ text => this.setState({title:text})}/>
-
-                        <Text>Descripcion</Text>
+                        <Text style={styles.subTitulo}>Descripcion</Text>
                         <TextInput
-                            style={styles.input} 
+                            style={styles.inputDesc} 
                             multiline = {true} 
                             numberOfLines= {5} 
                             onChangeText={text => this.setState({description:text})}/>
-
                         <TouchableOpacity 
                             onPress={()=>this.createPost()}
-                            style={styles.btn}>
+                            style={styles.botonVisible}>
                                 
-                            <Text>Crear</Text>
+                            <Text style={styles.textBoton}>Crear</Text>
                         </TouchableOpacity>
+                        {/* <Text style ={styles.logo} >PI | PostIt</Text> */}
                     </View>
             }
             </React.Fragment>
         )
     }
 }
-
 //Aquí es donde le aplico los estilos
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
+        width: "100%"
     },
     titulo:{
-      fontFamily: 'arial',
+      fontFamily: 'Helvetica',
       textAlign: 'center',
-      color: 'tomato',
-      fontSize: '2rem'
+      color: 'white',
+      fontSize: '1.5rem',
+      paddingBottom: 15,
     },
+    info:{
+        paddingBottom: 15,
+        fontFamily: 'Helvetica',
+        textAlign: 'center',
+        color: 'lavender',
+        fontSize: '0.8rem'
+      },
+    subTitulo:{
+        fontFamily: 'Helvetica',
+        textAlign: 'center',
+        color: 'lavender',
+        fontSize: '1rem'
+      },
+      textBoton:{
+        fontFamily: 'Helvetica',
+        color: 'white',
+        opacity: 1
+      },
+      textBotonDifuso:{
+        fontFamily: 'Helvetica',
+        color: 'white',
+        opacity: 0.3
+      },
     input: {
       height: 20,
+      width:"70%",
       paddingVertical: 15,
       paddingHorizontal: 10,
-      borderWidth: 1,
       borderStyle: 'solid',
       borderColor: '#ccc',
-      borderRadius: 6,
-      marginVertical:10
+      borderRadius: 5,
+      marginVertical:10,
+      backgroundColor: '#181818',
+      color: 'white'
+    },
+    inputDesc: {
+        height: '40%',
+        width:"70%",
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+        borderStyle: 'solid',
+        borderColor: '#ccc',
+        borderRadius: 5,
+        marginVertical:10,
+        backgroundColor: '#181818',
+        color: 'white'
+      },
+    botonVisible: {
+        backgroundColor: 'mediumpurple',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius: 5,
+        marginVertical:20,
+        width: "70%",
+        opacity: 1
+    },
+    botonDifuso: {
+        backgroundColor: 'mediumpurple',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius: 5,
+        marginVertical:20,
+        width: "70%",
+        opacity: 0.3
     },
   
     btn: {
@@ -112,5 +165,12 @@ const styles = StyleSheet.create({
     },
     error: {
         color: 'tomato'
+    },
+    logo: {
+        color: 'white',
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        marginBottom: 25,
+        fontFamily: 'Helvetica'
     }
-  }) 
+  })
