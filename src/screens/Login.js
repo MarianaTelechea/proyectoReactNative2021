@@ -7,12 +7,14 @@ export default class Login extends Component{
         this.state = {
             email: "",
             password: "",
+            error: "Tenes un error en el usuario o la contraseña"
         }
     }
 
     render(){
         return(
             <View>
+                {/* <Text style={styles.error}>{this.state.error}</Text> */}
             <Text style = {styles.titulo}>Ingresar</Text>
             <TextInput
                 placeholder = 'Introduzca su E-mail'
@@ -39,5 +41,11 @@ const styles =  StyleSheet.create({
         textAlign: 'center',
         color: 'white',
         fontSize: '2rem',
+    },
+    error:{
+        fontFamily: 'arial',
+        textAlign: 'center',
+        color: 'red',
+        fontSize: '1rem'
     }
 })

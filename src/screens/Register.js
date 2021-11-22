@@ -5,17 +5,27 @@ export default class Register extends Component{
     constructor(props){
         super(props);
         this.state = {
-            email: "",
-            password: "",
+            username: '',
+            email: '',
+            password: '',
+            error: "Error de usuario"
         }
     }
 
     render(){
         return(
+
             <View>
 
-                <Text style={styles.error}>{this.props.error}</Text>
                 <Text style = {styles.titulo}>Register</Text>
+
+                <Text style = {styles.titulo}>Nombre de usuario</Text>
+                <TextInput
+                    style ={styles.input}
+                    placeholder = 'Introduzca su nombre'
+                    keyboardType = 'default'
+                    onChangeText = { (text) => this.setState({username: text})} 
+                />
             
                 <Text style = {styles.titulo}>E-mail</Text>
                 <TextInput
@@ -45,7 +55,13 @@ const styles =  StyleSheet.create({
     titulo:{
         fontFamily: 'arial',
         textAlign: 'center',
-        color: 'white',
-        fontSize: '2rem'
+        color: 'blue',
+        fontSize: '1rem'
+    },
+    error:{
+        fontFamily: 'arial',
+        textAlign: 'center',
+        color: 'red',
+        fontSize: '1rem'
     }
 })

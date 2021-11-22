@@ -4,10 +4,6 @@ import AuthDrawer from './src/components/AuthDrawer';
 
 function App() {
   return (
-    // <View>
-    //   <Home />
-    //   <Register />
-    // </View>
     <AuthDrawer/>
   );
 }

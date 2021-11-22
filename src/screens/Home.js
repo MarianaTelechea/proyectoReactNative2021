@@ -15,7 +15,7 @@ export default class Home extends Component{
     componentDidMount(){
         db.collection("posts").orderBy("createAt", "desc").onSnapshot((docs) => {
             let posts = [];
-            docs.forEach((doc) => {
+            docs.forEach(doc => {
                 posts.push({
                     id: doc.id,
                     data: doc.data()
@@ -33,15 +33,13 @@ export default class Home extends Component{
         return(
             <View style={styles.container}>
                 {
-                    this.state.loading ? (
-                     <ActivityIndicator color={"green"} size={"large"} />
-                    ) : (
-                    <FlatList
-                        data={this.state.posts}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({item}) => <Post info={item} /> }
-                    />
-                    )
+                    this.state.loading ?
+                     <ActivityIndicator color={"green"} size={"large"} /> :
+                        <FlatList
+                            data={this.state.posts}
+                            keyExtractor={(post) => post.id}
+                            renderItem={({item}) => <Post doc={item} /> }
+                        />       
                 }
             </View>
         )
@@ -50,6 +48,7 @@ export default class Home extends Component{
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: 'purple'
+        backgroundColor: 'purple',
+        flex: 1
     }
 })
