@@ -60,7 +60,7 @@ export default class MyCamera extends Component{
 
     render(){
 
-        if(this.state.permission === false) return <Text> No hay permisos </Text>
+        if(this.state.permission === false) return <View style={styles.textPermisos}><Text style={styles.permisos}> No hay permisos </Text></View>
 
         return(
             <React.Fragment>
@@ -70,19 +70,22 @@ export default class MyCamera extends Component{
                             <Image source = {{uri: this.state.photo}} style={styles.preview}/>
                             <View style={styles.btnContainer}>
                                 <TouchableOpacity
-                                    onPress={()=>this.onReject()}
+                                    onPress={()=>this.onAccept()}
+                                    style={styles.botonA}
                                 >
-                                    <Text>Rechazar</Text>
+                                    <Text style={styles.textAceptar}>Aceptar</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={()=>this.onAccept()}
+                                    onPress={()=>this.onReject()}
+                                    style={styles.botonR}
                                 >
-                                    <Text>Aceptar</Text>
+                                    <Text style={styles.textRechazar}>Rechazar</Text>
                                 </TouchableOpacity>
                             </View>
                         </React.Fragment>
                     :
                         <React.Fragment>
+                            <Text style={styles.logo}>PI | PostIt</Text>
                             <Camera 
                                 style={styles.camera}
                                 type={Camera.Constants.Type.front}
@@ -90,8 +93,9 @@ export default class MyCamera extends Component{
                             />
                             <TouchableOpacity
                                 onPress={()=> this.takePhoto()}
+                                style={styles.botonA}
                             >
-                                <Text>Sacar foto</Text>
+                                <Text style={styles.textAceptar}>Sacar foto</Text>
 
                             </TouchableOpacity>
                         </React.Fragment>
@@ -107,11 +111,85 @@ const styles = StyleSheet.create({
         flex:1,
         width: "100%"
     },
+    container:{
+        backgroundColor: 'black',
+        justifyContent: 'center',
+        width: "100%",
+        fontFamily: 'Helvetica',
+        marginVertical: 18,
+        flex: 1
+    },
     preview:{
         flex: 6,
         width: "100%"
     },
     btnContainer: {
-        flex:1
+        flex:0.5,
+        flexWrap: "wrap",
+        flexDirection: 'column',
+        backgroundColor: 'black'
+    },
+    textAceptar:{
+        marginVertical: 15,
+        marginHorizontal: 10,
+        fontSize: '1rem',
+        color: 'white',
+        borderRadius: 4,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: 'mediumpurple',
+        width: '70%',
+        alignContent: 'center',
+        fontFamily: 'Helvetica',
+        backgroundColor: 'mediumpurple',
+        textAlign:'center'
+    },
+    textRechazar:{
+        marginVertical: 15,
+     marginHorizontal: 10,
+     fontSize: '1rem',
+     color: 'white',
+     borderRadius: 4,
+     borderWidth: 1,
+     borderStyle: 'solid',
+     borderColor: 'white',
+     width: '70%',
+     alignContent: 'center',
+     fontFamily: 'Helvetica',
+     textAlign:'center'
+    },
+    botonA:{
+        alignItems:'center',
+        backgroundColor: 'black'
+    },
+    botonR:{
+        alignItems: 'center'
+    },
+    textBoton:{
+        color: 'mediumpurple'
+      },
+      logo: {
+        color: 'white',
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        backgroundColor: 'black',
+        fontFamily: 'Helvetica',
+        textAlign: 'center',
+        paddingVertical: 10,
+        width: '100%'
+    },
+    permisos:{
+        fontSize: '1em',
+        color: 'white',
+    },
+    textPermisos:{
+        flexWrap:'wrap',
+        backgroundColor: 'black',
+        justifyContent:'center',
+        alignItems: 'center',
+        alignContent: 'center',
+        alignSelf: 'center',
+        width: '100%',
+        height: '100%'
     }
 })
