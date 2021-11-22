@@ -29,17 +29,33 @@ export default class Home extends Component{
         })
     }
 
+    // delete(id){
+    //     db.collection('posts').where('createAt', '==', id).get()
+    //     .then(data => {
+    //         data.forEach(doc => doc.ref.delete())
+    //         const postsFiltered = this.state.posts.filter(post => post.createAt != id)
+    //         this.setState({posts: postsFiltered});
+    //     })
+    // }
+
     render(){
         return(
             <View style={styles.container}>
                 {
                     this.state.loading ?
-                     <ActivityIndicator color={"green"} size={"large"} /> :
+                     <ActivityIndicator color={"white"} size={"large"} /> :
+
+                     <View style={styles.container}>
+                        <Text style ={styles.logo} >PI | PostIt</Text>
+                    
                         <FlatList
                             data={this.state.posts}
                             keyExtractor={(post) => post.id}
-                            renderItem={({item}) => <Post doc={item} /> }
-                        />       
+                            renderItem={({item}) => <Post doc={item}/> }
+                            // delete={(createAt)=>this.delete(createAt)} 
+                        /> 
+
+                    </View>       
                 }
             </View>
         )
@@ -48,7 +64,17 @@ export default class Home extends Component{
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: 'purple',
-        flex: 1
+        backgroundColor: 'black',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: "100%"
+    },
+    logo: {
+        color: 'white',
+        fontSize: '1.5rem',
+        fontWeight: 'bold',
+        paddingVertical: 15,
+        fontFamily: 'Helvetica'
     }
 })
