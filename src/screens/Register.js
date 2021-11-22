@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {View, Text, TextInput, TouchableOpacity, StyleSheet} from "react-native";
-
+import { logOut } from '../components/AuthDrawer';
+import { auth, db } from "../firebase/config";
 export default class Register extends Component{
     constructor(props){
         super(props);
@@ -8,18 +9,32 @@ export default class Register extends Component{
             username: '',
             email: '',
             password: '',
-            error: "Error de usuario"
+            error: "",
+            opacity: true
         }
     }
-
+    // const userFiltered = this.state.username.filter(user => post.createAt != id)
+    // this.setState({posts: postsFiltered});
+    // validarRegistro(){
+    //     if(this.state.username === "" && this.state.email === "" && this.state.password === "" ){
+    //         alert("Vacio")
+    //     } else{
+    //         this.props.registrarse(this.state.email, this.state.password, this.state.username)
+    //     }
+    // }
+    // changeText(text){
+    //     this.setState({
+    //         username: text,
+    //         opacity:!this.state.opacity
+    //     })
+    // }
     render(){
         return(
-
-            <View>
-
-                <Text style = {styles.titulo}>Register</Text>
-
-                <Text style = {styles.titulo}>Nombre de usuario</Text>
+            <View style= {styles.container}>
+            <View style= {styles.container}>
+                <Text style = {styles.titulo}>Crea un usuario</Text>
+                <Text style = {styles.info}>Crear un usuario para tu nueva cuenta</Text>
+                {/* <Text style = {styles.subTitulo}>Nombre de usuario</Text> */}
                 <TextInput
                     style ={styles.input}
                     placeholder = 'Introduzca su nombre'
@@ -27,41 +42,136 @@ export default class Register extends Component{
                     onChangeText = { (text) => this.setState({username: text})} 
                 />
             
-                <Text style = {styles.titulo}>E-mail</Text>
+                {/* <Text style = {styles.subTitulo}>E-mail</Text> */}
                 <TextInput
+                    style ={styles.input}
                     placeholder = 'Introduzca su E-mail'
                     keyboardType = 'email-address'
-                   onChangeText ={ (text) => this.setState({email: text})}
+                    onChangeText ={ (text) => this.setState({email: text})}
                 />
-
-                <Text style = {styles.titulo}>Password</Text>
+                {/* <Text style = {styles.subTitulo}>Password</Text> */}
                 <TextInput
+                    style ={styles.input}
                     placeholder = 'Introduzca su password'
                     keyboardType = 'password'
                     onChangeText ={ (text) => this.setState({password: text})}
                     secureTextEntry={true}
                 />
-
-                <TouchableOpacity onPress={() => this.props.registrarse(this.state.email, this.state.password, this.state.username)}>
-                    <Text>Registrarse</Text>
+                <TouchableOpacity
+                    style ={this.state.username === '' &&  this.state.email === '' && this.state.password === '' ? styles.textBotonDifuso:styles.botonVisible} 
+                    onPress={() => this.props.registrarse(this.state.email, this.state.password, this.state.username)}
+                    disabled={this.state.username === '' &&  this.state.email === '' && this.state.password === '' ? true:false}
+                    >
+                        <Text style ={this.state.username === '' &&  this.state.email === '' && this.state.password === '' ? styles.textBotonDifuso:styles.textBoton}>Registrarse</Text>
                 </TouchableOpacity>
-
+            </View>
+                <Text style ={styles.logo} >PI | PostIt</Text>
             </View>
         )
     }
 }
-
-const styles =  StyleSheet.create({
-    titulo:{
-        fontFamily: 'arial',
-        textAlign: 'center',
-        color: 'blue',
-        fontSize: '1rem'
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'black',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: "100%"
     },
-    error:{
-        fontFamily: 'arial',
+    titulo:{
+      fontFamily: 'Helvetica',
+      textAlign: 'center',
+      color: 'white',
+      fontSize: '1.5rem'
+    },
+    info:{
+        paddingBottom: 15,
+        fontFamily: 'Helvetica',
         textAlign: 'center',
-        color: 'red',
+        color: 'lavender',
+        fontSize: '0.8rem'
+      },
+    subTitulo:{
+        fontFamily: 'Helvetica',
+        textAlign: 'center',
+        color: 'slategray',
         fontSize: '1rem'
+      },
+      textBoton:{
+        fontFamily: 'Helvetica',
+        color: 'white',
+        opacity: 1
+      },
+      textBotonDifuso:{
+        fontFamily: 'Helvetica',
+        color: 'white',
+        // opacity: 0.3
+      },
+    input: {
+      height: 20,
+      width:"70%",
+      paddingVertical: 15,
+      paddingHorizontal: 10,
+      borderStyle: 'solid',
+      borderColor: '#ccc',
+      borderRadius: 5,
+      marginVertical:10,
+      backgroundColor: '#181818',
+      color: 'white'
+    },
+    botonVisible: {
+        backgroundColor: 'mediumpurple',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius: 5,
+        marginVertical:20,
+        width: "70%",
+        opacity: 1
+    },
+    botonDifuso: {
+        backgroundColor: 'mediumpurple',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius: 5,
+        marginVertical:20,
+        width: "70%",
+        // opacity: 0.3
+    },
+  
+    btn: {
+        backgroundColor: 'teal',
+        padding: 10,
+        color: 'white'
+    },
+    error: {
+        color: 'tomato'
+    },
+    logo: {
+        color: 'white',
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        marginBottom: 25,
+        fontFamily: 'Helvetica'
     }
-})
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
