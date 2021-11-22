@@ -17,8 +17,6 @@ export default class AuthDrawer extends Component{
             loggeIn: false,
             user: '',
             error:'',
-            // posts:[],
-            // postsIniciales:[]
         }
     }
     componentDidMount(){

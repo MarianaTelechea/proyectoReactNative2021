@@ -93,11 +93,6 @@ export default class Post extends Component{
     render(){
         return(
             <View style={styles.container}>
-                    {/* <TouchableOpacity 
-                        onPress={() => {this.props.delete(this.props.doc.id)}}
-                        style={styles.eliminarPost}>
-                            <Text style={styles.eliminar}>Eliminar posteo</Text>
-                     </TouchableOpacity> */}
                 <Text style={styles.user}>{this.props.doc.data.username}  </Text>
                 <Text style={styles.createAt}> Fecha: {this.props.doc.data.createAt}</Text>
                 <Image source = {{uri:this.props.doc.data.photo}} style={styles.preview} />
@@ -156,37 +151,7 @@ export default class Post extends Component{
         )}
 }
 const styles = StyleSheet.create({
-    // container: {
-    //     marginVertical: 15,
-    //     shadowColor: '#ccc',
-    //     shadowOffset:{
-    //         width: 0,
-    //         height: 0
-    //     },
-    //     shadowOpacity: 0.5,
-    //     shadowRadius: 10,
-    //     borderRadius: 5,   
-    // },
-//     quitarLike: {
-//       backgroundColor: 'tomato',
-//       paddingHorizontal: 10,
-//       paddingVertical: 6,
-//       textAlign: 'center',
-//       borderRadius: 4,
-//       borderWidth: 1,
-//       borderStyle: 'solid',
-//       borderColor: 'blue'
-//   },
-//   meGusta: {
-//     backgroundColor: 'green',
-//     paddingHorizontal: 10,
-//     paddingVertical: 6,
-//     textAlign: 'center',
-//     borderRadius: 4,
-//     borderWidth: 1,
-//     borderStyle: 'solid',
-//     borderColor: 'blue'
-//   },
+   
   container: {
      flex: 1,
      backgroundColor: 'black',

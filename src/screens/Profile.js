@@ -12,7 +12,7 @@ export default class Profile extends Component{
     }
     componentDidMount(){
         db.collection("posts")
-        // console.log(auth.currentUser)
+        
         .where("email","==", auth.currentUser.email)
         .orderBy("createAt", "desc").onSnapshot((docs) => {
             let posts = [];

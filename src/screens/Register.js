@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View, Text, TextInput, TouchableOpacity, StyleSheet} from "react-native";
 import { logOut } from '../components/AuthDrawer';
 import { auth, db } from "../firebase/config";
+
 export default class Register extends Component{
     constructor(props){
         super(props);
@@ -13,28 +14,14 @@ export default class Register extends Component{
             opacity: true
         }
     }
-    // const userFiltered = this.state.username.filter(user => post.createAt != id)
-    // this.setState({posts: postsFiltered});
-    // validarRegistro(){
-    //     if(this.state.username === "" && this.state.email === "" && this.state.password === "" ){
-    //         alert("Vacio")
-    //     } else{
-    //         this.props.registrarse(this.state.email, this.state.password, this.state.username)
-    //     }
-    // }
-    // changeText(text){
-    //     this.setState({
-    //         username: text,
-    //         opacity:!this.state.opacity
-    //     })
-    // }
+    
     render(){
         return(
             <View style= {styles.container}>
             <View style= {styles.container}>
                 <Text style = {styles.titulo}>Crea un usuario</Text>
                 <Text style = {styles.info}>Crear un usuario para tu nueva cuenta</Text>
-                {/* <Text style = {styles.subTitulo}>Nombre de usuario</Text> */}
+                
                 <TextInput
                     style ={styles.input}
                     placeholder = 'Introduzca su nombre'
@@ -42,14 +29,14 @@ export default class Register extends Component{
                     onChangeText = { (text) => this.setState({username: text})} 
                 />
             
-                {/* <Text style = {styles.subTitulo}>E-mail</Text> */}
+                
                 <TextInput
                     style ={styles.input}
                     placeholder = 'Introduzca su E-mail'
                     keyboardType = 'email-address'
                     onChangeText ={ (text) => this.setState({email: text})}
                 />
-                {/* <Text style = {styles.subTitulo}>Password</Text> */}
+               
                 <TextInput
                     style ={styles.input}
                     placeholder = 'Introduzca su password'

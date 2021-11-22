@@ -67,14 +67,14 @@ export default class CreatePost extends Component{
                                 
                             <Text style={styles.textBoton}>Crear</Text>
                         </TouchableOpacity>
-                        {/* <Text style ={styles.logo} >PI | PostIt</Text> */}
+                       
                     </View>
             }
             </React.Fragment>
         )
     }
 }
-//Aquí es donde le aplico los estilos
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

@@ -148,37 +148,7 @@ export default class ProfilePost extends Component{
         )}
 }
 const styles = StyleSheet.create({
-    // container: {
-    //     marginVertical: 15,
-    //     shadowColor: '#ccc',
-    //     shadowOffset:{
-    //         width: 0,
-    //         height: 0
-    //     },
-    //     shadowOpacity: 0.5,
-    //     shadowRadius: 10,
-    //     borderRadius: 5,   
-    // },
-//     quitarLike: {
-//       backgroundColor: 'tomato',
-//       paddingHorizontal: 10,
-//       paddingVertical: 6,
-//       textAlign: 'center',
-//       borderRadius: 4,
-//       borderWidth: 1,
-//       borderStyle: 'solid',
-//       borderColor: 'blue'
-//   },
-//   meGusta: {
-//     backgroundColor: 'green',
-//     paddingHorizontal: 10,
-//     paddingVertical: 6,
-//     textAlign: 'center',
-//     borderRadius: 4,
-//     borderWidth: 1,
-//     borderStyle: 'solid',
-//     borderColor: 'blue'
-//   },
+    
   container: {
      flex: 1,
      backgroundColor: 'black',

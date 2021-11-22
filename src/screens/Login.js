@@ -32,7 +32,7 @@ export default class Login extends Component{
         return(
             <View style= {styles.container}>
                 <View style= {styles.container}>
-                    {/* <Text style={styles.error}>{this.state.error}</Text> */}
+                    
                 <Text style = {styles.titulo}>Iniciar sesión</Text>
                 <Text style = {styles.info}>Ingrese sus datos para acceder a su cuenta</Text>
                 <TextInput

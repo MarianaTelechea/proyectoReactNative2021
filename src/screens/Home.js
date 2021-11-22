@@ -29,14 +29,6 @@ export default class Home extends Component{
         })
     }
 
-    // delete(id){
-    //     db.collection('posts').where('createAt', '==', id).get()
-    //     .then(data => {
-    //         data.forEach(doc => doc.ref.delete())
-    //         const postsFiltered = this.state.posts.filter(post => post.createAt != id)
-    //         this.setState({posts: postsFiltered});
-    //     })
-    // }
 
     render(){
         return(
@@ -51,8 +43,7 @@ export default class Home extends Component{
                         <FlatList
                             data={this.state.posts}
                             keyExtractor={(post) => post.id}
-                            renderItem={({item}) => <Post doc={item}/> }
-                            // delete={(createAt)=>this.delete(createAt)} 
+                            renderItem={({item}) => <Post doc={item}/> } 
                         /> 
 
                     </View>       
