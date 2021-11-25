@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import MyCamera from '../components/MyCamera';
 import { auth, db } from "../firebase/config";
+
 export default class CreatePost extends Component{
     constructor(props){
         super(props);
@@ -12,6 +13,7 @@ export default class CreatePost extends Component{
             showCamera: true
         }
     }
+    
      createPost(){
          db.collection("posts").add({
              username: auth.currentUser.displayName,
@@ -42,6 +44,7 @@ export default class CreatePost extends Component{
             showCamera: false
         })
      }
+
     render(){
         return(
             <React.Fragment>
@@ -55,7 +58,7 @@ export default class CreatePost extends Component{
                         <TextInput
                             style={styles.input} 
                             onChangeText={ text => this.setState({title:text})}/>
-                        <Text style={styles.subTitulo}>Descripcion</Text>
+                                <Text style={styles.subTitulo}>Descripcion</Text>
                         <TextInput
                             style={styles.inputDesc} 
                             multiline = {true} 
@@ -63,9 +66,8 @@ export default class CreatePost extends Component{
                             onChangeText={text => this.setState({description:text})}/>
                         <TouchableOpacity 
                             onPress={()=>this.createPost()}
-                            style={styles.botonVisible}>
-                                
-                            <Text style={styles.textBoton}>Crear</Text>
+                            style={styles.botonVisible}>    
+                                <Text style={styles.textBoton}>Crear</Text>
                         </TouchableOpacity>
                        
                     </View>
