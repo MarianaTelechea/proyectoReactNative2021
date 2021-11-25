@@ -9,7 +9,7 @@ class Search extends Component{
         this.state = {
             loading: false,
             posts: [],
-            search: "true"
+            search: ""
         }
     }
     
@@ -52,7 +52,7 @@ class Search extends Component{
                             renderItem={({item}) => <Post doc={item} /> }
                     />
                 :
-                    this.state.search.length > 1 ?
+                    this.state.search.length >= 1 ?
                         <Text style={styles.comentarios}>No existe un posteo</Text>
                     :
                         <Text></Text>

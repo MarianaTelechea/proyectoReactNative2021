@@ -13,7 +13,7 @@ export default class CreatePost extends Component{
             showCamera: true
         }
     }
-    
+
      createPost(){
          db.collection("posts").add({
              username: auth.currentUser.displayName,
@@ -58,7 +58,7 @@ export default class CreatePost extends Component{
                         <TextInput
                             style={styles.input} 
                             onChangeText={ text => this.setState({title:text})}/>
-                                <Text style={styles.subTitulo}>Descripcion</Text>
+                        <Text style={styles.subTitulo}>Descripcion</Text>
                         <TextInput
                             style={styles.inputDesc} 
                             multiline = {true} 
