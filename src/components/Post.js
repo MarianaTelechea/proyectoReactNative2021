@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, FlatList, Image} from 'react-native';
 import firebase from 'firebase';
 import { auth, db } from '../firebase/config';
+
 export default class Post extends Component{
     constructor(props){
         super(props);
@@ -14,6 +15,7 @@ export default class Post extends Component{
             cantComments: 0
         }
     }
+
     componentDidMount(){
         if(this.props.doc.data.likes){
             let likes = this.props.doc.data.likes.length;
@@ -25,6 +27,12 @@ export default class Post extends Component{
                     liked:true
                 })
             }
+        }
+        if(this.props.doc.data.comments){
+            let cantComments = this.props.doc.data.comments.length;
+            this.setState({
+                cantComments: cantComments
+            })
         }
     }
     likes(){
@@ -84,6 +92,7 @@ export default class Post extends Component{
         )
         .catch(e=>console.log('Ups! Error' + e))
     }
+
     render(){
         return(
             <View style={styles.container}>
@@ -146,6 +155,7 @@ export default class Post extends Component{
             </View>
         )}
 }
+
 const styles = StyleSheet.create({ 
   container: {
         flex: 1,
