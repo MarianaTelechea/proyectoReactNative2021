@@ -10,9 +10,8 @@ export default class MyCamera extends Component{
             permission: false,
             photo: ""
         }
-        this.camera; // sacandolo del estado, evitamos el bucle infinito
+        this.camera;
     }
-
     componentDidMount(){
         Camera.requestCameraPermissionsAsync()
         .then(()=> {
@@ -26,31 +25,28 @@ export default class MyCamera extends Component{
             })
         })
     }
-
     takePhoto(){
         this.camera.takePictureAsync()
         .then((photo)=>{
             this.setState({
-                photo: photo.uri // direccion a la memoria cache de la compu o celu
+                photo: photo.uri
             })
         })
     }
-
     onReject(){
         this.setState({
             photo: ""
         })
     }
-
     onAccept(){
         fetch(this.state.photo)
         .then((response)=> response.blob())
         .then((image) => {
-            const storageRef = storage.ref("camera/"+ Date.now()); // lugar donde se va a guardar la imagen en firebase
-            storageRef.put(image) // contenido
+            const storageRef = storage.ref("camera/"+ Date.now()); 
+            storageRef.put(image)
             .then(()=>{
                 console.log("SE SUBIO");
-                storageRef.getDownloadURL() // para agarrar la foto que te saques y guardes en el storage
+                storageRef.getDownloadURL()
                 .then((url)=>{
                     this.props.onPhotoUpload(url);
                 })
@@ -59,9 +55,7 @@ export default class MyCamera extends Component{
     }
 
     render(){
-
         if(this.state.permission === false) return <View style={styles.textPermisos}><Text style={styles.permisos}> No hay permisos </Text></View>
-
         return(
             <React.Fragment>
                 {
@@ -111,14 +105,6 @@ const styles = StyleSheet.create({
         flex:1,
         width: "100%"
     },
-    container:{
-        backgroundColor: 'black',
-        justifyContent: 'center',
-        width: "100%",
-        fontFamily: 'Helvetica',
-        marginVertical: 18,
-        flex: 1
-    },
     preview:{
         flex: 6,
         width: "100%"
@@ -165,10 +151,7 @@ const styles = StyleSheet.create({
     botonR:{
         alignItems: 'center'
     },
-    textBoton:{
-        color: 'mediumpurple'
-      },
-      logo: {
+    logo: {
         color: 'white',
         fontSize: '1rem',
         fontWeight: 'bold',
