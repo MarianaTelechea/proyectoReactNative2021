@@ -9,7 +9,9 @@ import Profile from '../screens/Profile';
 import CreatePost from '../screens/CreatePost';
 import Home from '../screens/Home';
 import Search from '../screens/Search';
+
 const Drawer = createDrawerNavigator();
+
 export default class AuthDrawer extends Component{
     constructor(props){
         super(props);
@@ -19,6 +21,7 @@ export default class AuthDrawer extends Component{
             error:'',
         }
     }
+
     componentDidMount(){
         auth.onAuthStateChanged((user)=>{
             console.log(user)
@@ -76,22 +79,25 @@ export default class AuthDrawer extends Component{
             })
         })
         .catch(error => {
-            console.log("error_login" + error);
-            // if (error.code === 'auth/error_loginError') {
-            //     console.log('That email address is invalid!');
-            //     alert('Disculpe, el nombre de usuario es invalido')
-            // }
-            // if (error.code === null) {
-            //     console.log('That email address is invalid!');
-            //     alert('Disculpe, el nombre de usuario es invalido')
-            // }
+            console.log(error);
+            if (error.code === 'auth/invalid-email') {
+                console.log('That email address is invalid!');
+                alert('Disculpe, el email es incorrecto')
+            }
+            if (error.code === 'auth/wrong-password') {
+                console.log('That email address is invalid!');
+                alert('Disculpe, la contraseña es incorrecta')
+            }
+            if (error.code === 'auth/user-not-found') {
+                console.log('That email address is invalid!');
+                alert('Disculpe, el usuario no existe')
+            }
             this.setState({
                 loggeIn:false,
                 error: "Error en loggeo"
             })
         })
     }
-    
     signOut(){
         auth.signOut()
         .then(response => {
@@ -104,6 +110,7 @@ export default class AuthDrawer extends Component{
             console.log(error);
         })
     }
+
     render(){
         return(
             <NavigationContainer> 
@@ -112,7 +119,7 @@ export default class AuthDrawer extends Component{
                         this.state.loggeIn ?
                             <React.Fragment>
                                 <Drawer.Screen name="Home">
-                                    { () => <Home delete={()=>this.delete} /> }
+                                    { () => <Home /> }
                                 </Drawer.Screen>
                                 <Drawer.Screen name="Search">
                                     { () => <Search/> }
@@ -135,9 +142,7 @@ export default class AuthDrawer extends Component{
         )
     }
 }
-export function logOut() {
-    throw new Error('Function not implemented.');
-}
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'black'
