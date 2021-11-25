@@ -29,23 +29,20 @@ export default class Home extends Component{
         })
     }
 
-
     render(){
         return(
             <View style={styles.container}>
                 {
                     this.state.loading ?
-                     <ActivityIndicator color={"white"} size={"large"} /> :
-
+                     <ActivityIndicator color={"white"} size={"large"} /> 
+                    :
                      <View style={styles.container}>
                         <Text style ={styles.logo} >PI | PostIt</Text>
-                    
                         <FlatList
                             data={this.state.posts}
                             keyExtractor={(post) => post.id}
                             renderItem={({item}) => <Post doc={item}/> } 
-                        /> 
-
+                        />
                     </View>       
                 }
             </View>
