@@ -10,7 +10,8 @@ export default class ProfilePost extends Component{
             liked: false,
             showModal: false,
             comentario: "",
-            posts: []
+            posts: [],
+            cantComments: 0
         }
     }
     componentDidMount(){
@@ -76,7 +77,8 @@ export default class ProfilePost extends Component{
         )
         .then(
             this.setState({
-               comentario: ""
+               comentario: "",
+               cantComments: this.state.cantComments + 1
             }),
             console.log('comentario ok')
         )
@@ -85,70 +87,71 @@ export default class ProfilePost extends Component{
     render(){
         return(
             <View style={styles.container}>
-                    <TouchableOpacity 
-                        onPress={() => {this.props.delete(this.props.doc.id)}}
-                        style={styles.eliminarPost}>
-                            <Text style={styles.eliminar}>Eliminar posteo</Text>
-                     </TouchableOpacity>
+                <TouchableOpacity 
+                    onPress={() => {this.props.delete(this.props.doc.id)}}
+                    style={styles.eliminarPost}>
+                        <Text style={styles.eliminar}>Eliminar posteo</Text>
+                </TouchableOpacity>
                 <Text style={styles.user}>{this.props.doc.data.username}  </Text>
                 <Text style={styles.createAt}> Fecha: {this.props.doc.data.createAt}</Text>
                 <Image source = {{uri:this.props.doc.data.photo}} style={styles.preview} />
                 {
                     this.state.liked === true ?
-                     <TouchableOpacity 
-                        onPress={() => this.unLikes()}
-                        style={styles.quitarLike}>
-                            <Text style={styles.textUnlike}>Unlike</Text>
-                     </TouchableOpacity>
+                        <TouchableOpacity 
+                            onPress={() => this.unLikes()}
+                            style={styles.meGusta}>
+                                <Text style={styles.textUnlike}>Unlike</Text>
+                        </TouchableOpacity>
                     :
                         <TouchableOpacity 
                             onPress={() => this.likes()}
                             style={styles.meGusta}>
-                        <Text style={styles.textLike}>Like</Text>
-                    </TouchableOpacity>
+                                <Text style={styles.textLike}>Like</Text>
+                        </TouchableOpacity>
                 }
                 <Text style={styles.texto}>Likeado por {this.state.likes} personas</Text>
                 <Text style={styles.title}>{this.props.doc.data.title}</Text>
                 <Text style={styles.description}>{this.props.doc.data.description}</Text>
                 {
                     this.state.showModal ?
-                    <Modal
-                        animationType = "slide"
-                        visible={this.state.showModal}
-                        style={styles.modal}
-                    >
-                        <TouchableOpacity onPress={()=>this.closeModal()}>
-                            <Text style={styles.verComentarios} >Ocultar comentarios</Text>
-                        </TouchableOpacity> 
-                        {
-                            this.props.doc.data.comments == '' ?
-                            <Text style={styles.comentarios}>No hay comentarios</Text>
-                            :
-                        <FlatList
-                            data={this.props.doc.data.comments}
-                            keyExtractor={(post) => post.id}
-                            renderItem={({item}) => <Text style={styles.comentarios}> <Text style={styles.userComment}>{item.owner}:</Text> {item.comentario}</Text> }
-                        />
-                        }
-                        <TextInput
-                            placeholder = 'Escribe un comentario' 
-                            onChangeText={text => this.setState({comentario:text})} 
-                            value={this.state.comentario} 
-                            style={styles.input} />
-                        <TouchableOpacity onPress={()=>this.comments()}>
-                            <Text style={styles.subirComentario} >Subir comentario</Text>
-                        </TouchableOpacity>
-                    </Modal>
+                        <Modal
+                            animationType = "slide"
+                            visible={this.state.showModal}
+                            style={styles.modal}
+                        >
+                            <TouchableOpacity onPress={()=>this.closeModal()}>
+                                <Text style={styles.verComentarios} >Ocultar comentarios</Text>
+                            </TouchableOpacity> 
+                            {
+                                this.props.doc.data.comments == '' ?
+                                    <Text style={styles.comentarios}>Aún no hay comentarios. Sé el primero en opinar</Text>
+                                :
+                                    <FlatList
+                                        data={this.props.doc.data.comments}
+                                        keyExtractor={(post) => post.id}
+                                        renderItem={({item}) => <Text style={styles.comentarios}> <Text style={styles.userComment}>{item.owner}:</Text> {item.comentario}</Text> }
+                                    />
+                            }
+                            <TextInput
+                                placeholder = 'Escribe un comentario' 
+                                onChangeText={text => this.setState({comentario:text})} 
+                                value={this.state.comentario} 
+                                style={styles.input} />
+                            <TouchableOpacity 
+                                onPress={()=>this.comments()}
+                                disabled={this.state.comentario === ''? true:false}>
+                                <Text style={this.state.comentario === ''?styles.noSubirComentarios:styles.subirComentario}>Subir comentario</Text>
+                            </TouchableOpacity>
+                        </Modal>
                     :
                         <TouchableOpacity onPress={()=>this.openModal()}>
-                            <Text style={styles.verComentarios} >Ver comentarios</Text>
+                            <Text style={styles.verComentarios} >Ver {this.state.cantComments} comentarios</Text>
                         </TouchableOpacity>
                 }
             </View>
         )}
 }
-const styles = StyleSheet.create({
-    
+const styles = StyleSheet.create({  
   container: {
      flex: 1,
      backgroundColor: 'black',
@@ -200,7 +203,7 @@ const styles = StyleSheet.create({
   meGusta:{
     alignContent: 'flex-end'
   },
- textLike: {
+  textLike: {
      marginVertical: 15,
      marginHorizontal: 10,
      fontSize: '1rem',
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
      fontFamily: 'Helvetica',
      textAlign:'center'
  },
- textUnlike: {
+  textUnlike: {
      marginVertical: 15,
      marginHorizontal: 10,
      fontSize: '1rem',
@@ -229,26 +232,26 @@ const styles = StyleSheet.create({
      backgroundColor: 'mediumpurple',
      textAlign:'center'
  },
- verComentarios: {
+  verComentarios: {
     color: 'grey',
     fontWeight: 'normal',
     marginHorizontal: 8
  },
- subirComentario:{
+  subirComentario:{
     color: 'mediumpurple',
     fontWeight: 'normal',
     marginHorizontal: 8
  },
- comentarios:{
+  comentarios:{
     color: 'lightgray',
     marginHorizontal: 8,
     marginTop: 15
  },
- userComment:{
+  userComment:{
     color: 'lightgray',
     fontWeight: 'bold'
  },
-input: {
+  input: {
     height: 20,
     width:"100%",
     paddingVertical: 15,
@@ -260,12 +263,12 @@ input: {
     backgroundColor: '#181818',
     color: 'white'
  },
- eliminar:{
+  eliminar:{
     color: 'lightgray',
     fontWeight: 'normal',
     marginHorizontal: 8
   },
-     eliminarPost: {
+  eliminarPost: {
       paddingHorizontal: 10,
       paddingVertical: 6,
       alignSelf: 'flex-end',
@@ -278,4 +281,3 @@ input: {
       fontSize: '0.5rem'
   }
 })
-
