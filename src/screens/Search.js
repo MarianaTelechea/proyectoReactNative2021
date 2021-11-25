@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-//Aquí importo la configuración del auth que me ofrece firebase
-import { auth, db } from '../firebase/config';
-import { TextInput, ActivityIndicator, FlatList, View } from 'react-native';
+import { db } from '../firebase/config';
+import { TextInput, FlatList, View, StyleSheet, Text } from 'react-native';
 import Post from '../components/Post';
-//-------------------------------------------------------------
+
 class Search extends Component{
     constructor(props){
         super(props);
         this.state = {
             loading: false,
-            posts: []
+            posts: [],
+            search: "true"
         }
     }
     
@@ -26,28 +26,85 @@ class Search extends Component{
             console.log(posts);
             this.setState({
                 posts: posts,
-                loading: false
+                loading: false,
+                search: text
             })
         })
+        .catch(error => {
+            console.log(error);
+        })
     }
+
     render(){
         return(
-            <React.Fragment>
+            <View style= {styles.container}>
+                <Text style = {styles.titulo}>Busca los posteos de otras personas</Text>
                 <TextInput
+                    placeholder = 'Buscar por nombre de usuario'
                     onChangeText={(text)=>this.search(text)}
+                    style= {styles.input}
                 />
-                {/*Aquí con la condición muestro unas opcioneu otras*/}
                 {
-                this.state.loading ?
-                <ActivityIndicator color={"green"} size={"large"} /> :
+                this.state.posts.length != 0 ?
                     <FlatList
-                        data={this.state.posts}
-                        keyExtractor={(post) => post.id}
-                        renderItem={({item}) => <Post doc={item} /> }
-                    />       
+                            data={this.state.posts}
+                            keyExtractor={(post) => post.id}
+                            renderItem={({item}) => <Post doc={item} /> }
+                    />
+                :
+                    this.state.search.length > 1 ?
+                        <Text style={styles.comentarios}>No existe un posteo</Text>
+                    :
+                        <Text></Text>
                 }
-            </React.Fragment>
+            </View>
         )
     }
 }
+
 export default Search;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'black',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: "100%"
+    },
+    titulo:{
+      marginTop: 15,
+      fontFamily: 'Helvetica',
+      textAlign: 'center',
+      color: 'white',
+      fontSize: '1.2rem'
+    },
+    comentarios:{
+       color: 'lightgray',
+       marginHorizontal: 8,
+       marginTop: 15,
+       opacity: 0.6
+     },
+    input: {
+      height: 20,
+      width:"90%",
+      paddingVertical: 15,
+      paddingHorizontal: 10,
+      borderBottomStyle: 'solid',
+      borderBottomColor: '#FFFF',
+      borderRadius: 10,
+      marginVertical:15,
+      backgroundColor: '#58585875',
+      color: 'white'
+    }
+  })
+
+
+
+
+
+
+
+
+
+
