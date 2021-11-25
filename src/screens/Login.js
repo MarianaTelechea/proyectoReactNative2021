@@ -32,28 +32,28 @@ export default class Login extends Component{
         return(
             <View style= {styles.container}>
                 <View style= {styles.container}>
-                    
-                <Text style = {styles.titulo}>Iniciar sesión</Text>
-                <Text style = {styles.info}>Ingrese sus datos para acceder a su cuenta</Text>
-                <TextInput
-                    style ={styles.input}
-                    placeholder = 'Introduzca su E-mail'
-                    keyboardType = 'email-address'
-                    onChangeText ={ (text) => this.setState({email: text}) }
-                />
-                <TextInput
-                    style ={styles.input}
-                    placeholder = 'Introduzca su password'
-                    keyboardType = 'password'
-                    onChangeText ={ (text) => this.setState({password: text})}
-                    secureTextEntry={true}
-                />
-                <TouchableOpacity 
-                    style = {styles.boton} 
-                    onPress={() => this.props.ingresar(this.state.email, this.state.password)}>
-                        <Text style ={styles.textBoton}>Ingresar</Text>
-                </TouchableOpacity>
-            </View>
+                    <Text style = {styles.titulo}>Iniciar sesión</Text>
+                    <Text style = {styles.info}>Ingrese sus datos para acceder a su cuenta</Text>
+                    <TextInput
+                        style ={styles.input}
+                        placeholder = 'Introduzca su E-mail'
+                        keyboardType = 'email-address'
+                        onChangeText ={ (text) => this.setState({email: text}) }
+                    />
+                    <TextInput
+                        style ={styles.input}
+                        placeholder = 'Introduzca su password'
+                        keyboardType = 'password'
+                        onChangeText ={ (text) => this.setState({password: text})}
+                        secureTextEntry={true}
+                    />
+                    <TouchableOpacity 
+                        style = {this.state.email === '' && this.state.password === '' ? styles.botonDifuso:styles.botonVisible} 
+                        onPress={() => this.props.ingresar(this.state.email, this.state.password)}
+                        disabled={this.state.email === '' && this.state.password === '' ? true:false}>
+                            <Text style ={styles.textBoton}>Ingresar</Text>
+                    </TouchableOpacity>
+                </View>
             <Text style ={styles.logo} >PI | PostIt</Text>
         </View>
         )
@@ -81,12 +81,6 @@ const styles = StyleSheet.create({
         color: 'lavender',
         fontSize: '0.8rem'
       },
-    subTitulo:{
-        fontFamily: 'Helvetica',
-        textAlign: 'center',
-        color: 'slategray',
-        fontSize: '1rem'
-      },
       textBoton:{
         fontFamily: 'Helvetica',
         color: 'white'
@@ -103,25 +97,31 @@ const styles = StyleSheet.create({
       backgroundColor: '#181818',
       color: 'white'
     },
-
-    boton: {
+    botonVisible: {
         backgroundColor: 'mediumpurple',
         paddingHorizontal: 10,
         paddingVertical: 6,
         textAlign: 'center',
         borderRadius: 5,
         marginVertical:20,
-        width: "70%"
+        width: "70%",
+        opacity: 1
     },
-  
-    btn: {
-        backgroundColor: 'teal',
-        padding: 10,
-        color: 'white'
+    botonDifuso: {
+        backgroundColor: 'mediumpurple',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius: 5,
+        marginVertical:20,
+        width: "70%",
+        opacity: 0.3
     },
-    error: {
-        color: 'tomato'
-    },
+    textBoton:{
+        fontFamily: 'Helvetica',
+        color: 'white',
+        opacity: 1
+      },
     logo: {
         color: 'white',
         fontSize: '1rem',
